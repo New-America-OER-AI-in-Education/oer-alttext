@@ -1,0 +1,6 @@
+git+https://github.com/AI-for-Education/fabdata-llm.git@v0.17.1
+numpy
+python-dotenv
+pymupdf
+pillow
+tqdm
