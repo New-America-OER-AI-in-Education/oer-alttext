@@ -7,7 +7,7 @@ This project uses the [FabData LLM](https://github.com/AI-for-Education/fabdata-
 
 ## OpenAI access keys
 
-OpenAI are kindly supporting this event by providing access. You will need to download the `env` file from the [hackathon dropbox](https://www.dropbox.com/scl/fo/xcranzh6fora7nyyqu4wf/ANtNTFNr7nUHHaWi1agegVo?rlkey=lhjg2dg72oiecnwyke0u8x2q9&dl=0), and put it in this project folder named `.env`. 
+OpenAI are kindly supporting this event by providing access. You will need to download the `env` file from [here](https://www.robince.net/oerhackathon) and put it in this project folder named `.env`. The username and password to download this will be provided in the workshop. 
 
 ## Data and Example
 
