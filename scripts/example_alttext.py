@@ -4,14 +4,14 @@ from pathlib import Path
 
 import fitz
 from dotenv import load_dotenv
+load_dotenv(override=True)
+
 from fdllm import get_caller
 from fdllm.chat import ChatController
 from PIL import Image
 from tqdm import tqdm
 
 from project import DATADIR
-
-load_dotenv(override=True)
 
 # %% Read images from a specified PDF
 testfile = (
