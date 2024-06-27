@@ -2,8 +2,16 @@ import streamlit as st
 from config import settings
 from PIL import Image
 import io
+import os
 
 from src.llm import process_image
+
+
+# parent_dir = os.path.dirname(os.path.abspath(__file__))
+# logo_path = os.path.join(parent_dir, "online.jpg")
+# page = st_navbar(["Guide", "History", "About"], logo_path=logo_path)
+st.logo("online.svg")
+# st.write(page)
 
 # Create session state
 session_state = st.session_state
@@ -39,6 +47,11 @@ def get_alt_text():
 if image is not None and st.sidebar.button("Get Alt Text", use_container_width=True):
     st.write(f"Generating alt text for image with {settings['verbosity'][text_verbosity]} verbosity...")
     get_alt_text()
+else:
+    st.write("""<div style="border: 2px solid black; opacity:75%; padding: 10px; border-radius: 10px;">Upload a file to generate alt text!<br>\
+                Use the lefthand sidebar to specify your alt text preferences</div>""", unsafe_allow_html=True)
+    
+    # st.write("Use the lefthand sidebar to specify your alt text preferences.")
 
 if session_state.alt_text:
     st.write("Alt text generated successfully!")
