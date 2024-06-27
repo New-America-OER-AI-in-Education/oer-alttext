@@ -5,5 +5,5 @@ settings = dict(
         High=100
     ),
     languages = ["English", "Spanish", "Hindi", "German"],
-    robustness=["Low", "Medium", "High"]
+    robustness=["Low", "High"]
 )

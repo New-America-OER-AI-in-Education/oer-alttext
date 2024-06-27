@@ -1,5 +1,7 @@
 import streamlit as st
 from config import settings
+from PIL import Image
+import io
 
 from src.llm import process_image
 
@@ -14,9 +16,12 @@ with st.sidebar:
 
 
 def get_alt_text():
-    st.image(image, caption='Uploaded Image', use_column_width=True)
+    pillow_image = Image.open(image)
+
+    alt_text = process_image(pillow_image, language_selection, settings['verbosity'][text_verbosity], grade_selection, robustness)
     
-    process_image(image, language_selection, settings['verbosity'][text_verbosity])
+    st.write("Alt text generated successfully!")
+    st.write(alt_text)
 
 
 if image is not None and st.sidebar.button("Get Alt Text", use_container_width=True):
