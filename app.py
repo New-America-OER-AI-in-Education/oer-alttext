@@ -1,5 +1,9 @@
 import streamlit as st
 from config import settings
+from PIL import Image
+import io
+
+from src.llm import process_image
 
 # Create session state
 session_state = st.session_state
@@ -27,7 +31,12 @@ with st.sidebar:
     additional_prompt = st.text_input("Additional Promp Info")
 
 def get_alt_text():
-    st.image(image, caption='Uploaded Image', use_column_width=True)
+    pillow_image = Image.open(image)
+
+    alt_text = process_image(pillow_image, language_selection, settings['verbosity'][text_verbosity], grade_selection, robustness)
+    
+    st.write("Alt text generated successfully!")
+    st.write(alt_text)
 
     # Set session state with feedback
     st.text_input("How did we do?", key="feedback")
