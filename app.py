@@ -23,12 +23,13 @@ with st.sidebar:
     character_length = st.slider("Character Length", min_value=0, max_value=250, value=125)
     subject_area = st.selectbox("Select Subject Area", options=settings['subject'], index=8)
 
-    additional_prompt = st.text_input("Additional Promp Info")
+    additional_prompt = st.text_input("Additional Prompt Info")
 
 def get_alt_text():
+    st.image(image, use_column_width=True)
     pillow_image = Image.open(image)
 
-    alt_text = process_image(pillow_image, language_selection, settings['verbosity'][text_verbosity], grade_selection, robustness, subject_area, character_length, session_state.feedback)
+    alt_text = process_image(pillow_image, language_selection, settings['verbosity'][text_verbosity], grade_selection, robustness, subject_area, character_length, session_state.feedback, additional_prompt)
     
     session_state.alt_text = alt_text
 
