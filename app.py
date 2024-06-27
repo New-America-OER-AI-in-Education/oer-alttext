@@ -20,6 +20,8 @@ if 'feedback' not in session_state:
     session_state.feedback = ""
 if 'alt_text' not in session_state:
     session_state.alt_text = ""
+if 'alt_text_history' not in session_state:
+    session_state.alt_text_history = []
 
 with st.sidebar: 
     st.title("Generation Specifics")
@@ -40,9 +42,7 @@ def get_alt_text():
     alt_text = process_image(pillow_image, language_selection, settings['verbosity'][text_verbosity], grade_selection, robustness, subject_area, character_length, session_state.feedback, additional_prompt)
     
     session_state.alt_text = alt_text
-
-    # st.write("Alt text generated successfully!")
-    # st.write(alt_text)
+    session_state.alt_text_history.append(alt_text)
 
 if image is not None and st.sidebar.button("Get Alt Text", use_container_width=True):
     st.write(f"Generating alt text for image with {settings['verbosity'][text_verbosity]} verbosity...")
@@ -53,9 +53,8 @@ else:
     
     # st.write("Use the lefthand sidebar to specify your alt text preferences.")
 
-if session_state.alt_text:
-    st.write("Alt text generated successfully!")
-    st.write(session_state.alt_text)
-    st.text_input("How did we do?", key="feedback", on_change=get_alt_text)
+if session_state.alt_text_history:
+    for i, alt_text in enumerate(session_state.alt_text_history, 1):
+        st.write(f"{alt_text}")
 
-# st.write(session_state)
+    st.text_input("How did we do?", key="feedback", on_change=get_alt_text)
