@@ -1,6 +1,8 @@
 import streamlit as st
 from config import settings
 
+from src.llm import process_image
+
 
 with st.sidebar: 
     st.title("Generation Specifics")
@@ -13,6 +15,8 @@ with st.sidebar:
 
 def get_alt_text():
     st.image(image, caption='Uploaded Image', use_column_width=True)
+    
+    process_image(image, language_selection, settings['verbosity'][text_verbosity])
 
 
 if image is not None and st.sidebar.button("Get Alt Text", use_container_width=True):
