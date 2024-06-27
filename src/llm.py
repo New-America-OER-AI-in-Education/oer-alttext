@@ -18,7 +18,8 @@ load_dotenv()
 
 # print(outmsg.Message)
 
-def process_image(image: any, languages: List[str], verbosity: int, grade: str, robustness: str, subject: str, text_length: int):
+
+def process_image(image: any, languages: List[str], verbosity: int, grade: str, robustness: str, subject: str, text_length: int, feedback=""):
     chatter = ChatController(Caller=get_caller("gpt-4o"))
     inmsg, outmsg = chatter.chat("Image: ONLY GIVE THE ANSWER. Give me a good standard alt text for the image inputted." + 
                                  "Be sure to leave a blank line between each language output " + 
@@ -28,6 +29,7 @@ def process_image(image: any, languages: List[str], verbosity: int, grade: str, 
                                  f"give the alt text in a general context).  If an education level is selected: ${grade}, give the alt text in the context of the education level " + 
                                  f"(if there is no education level, give the alt text in a general context). " +
                                  f"The verbosity should like ${verbosity} (if no verbosity is selected, default to medium). " +
-                                 f"The length of the alt text: ${text_length} should default to no longer than 125 characters, unless otherwise selected.)", detail=robustness.lower(), images=[image])
-
+                                 f"The length of the alt text: ${text_length} should default to no longer than 125 characters, unless otherwise selected.)" + 
+                                 f"Feedback from previous prompts: ${feedback}", detail=robustness.lower(), images=[image])
+    
     return outmsg.Message
