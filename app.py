@@ -3,7 +3,7 @@ from config import settings
 from PIL import Image
 import io
 
-from src.llm import process_image
+from src.llm import process_image, process_pdf
 
 # Create session state
 session_state = st.session_state
@@ -18,6 +18,7 @@ if 'alt_text_history' not in session_state:
 with st.sidebar: 
     st.title("Generation Specifics")
     image = st.file_uploader("Upload an image")
+    file_type = st.selectbox("Select File Type", options=["Image", "PDF"])
     text_verbosity = st.selectbox("Select Text Verbosity", list(settings['verbosity'].keys()))
     language_selection = st.multiselect("Select Languages", options=settings['languages'], default=["English", "Spanish"])
     grade_selection = st.selectbox("Select Grades", options=settings['grade'], index=1)
@@ -28,16 +29,21 @@ with st.sidebar:
     additional_prompt = st.text_input("Additional Prompt Info")
 
 def get_alt_text():
-    st.image(image, use_column_width=True)
-    pillow_image = Image.open(image)
+    if file_type == "Image":
+        st.image(image, use_column_width=True)
+        pillow_image = Image.open(image)
 
-    alt_text = process_image(pillow_image, language_selection, settings['verbosity'][text_verbosity], grade_selection, robustness, subject_area, character_length, session_state.feedback, additional_prompt)
-    
+        alt_text = process_image(pillow_image, language_selection, settings['verbosity'][text_verbosity], grade_selection, robustness, subject_area, character_length, session_state.feedback, additional_prompt)
+    else:
+        image.seek(0) 
+        pdf_stream = io.BytesIO(image.read())  
+        alt_text = process_pdf(pdf_stream, language_selection, settings['verbosity'][text_verbosity], grade_selection, robustness, subject_area, character_length, session_state.feedback, additional_prompt)
+
     session_state.alt_text = alt_text
     session_state.alt_text_history.append(alt_text)
 
 if image is not None and st.sidebar.button("Get Alt Text", use_container_width=True):
-    st.write(f"Generating alt text for image with {settings['verbosity'][text_verbosity]} verbosity...")
+    st.write(f"Generating alt text for image...")
     get_alt_text()
 
 if session_state.alt_text_history:
